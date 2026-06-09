@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Khushi — Welcome, Friend</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Libre+Baskerville:ital@0;1&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #1a1208;
+    --ink-light: #5a3d10;
+    --paper: #fffdf4;
+    --accent: #b8740a;
+    --gold: #d4a017;
+    --amber: #e8b840;
+    --sun: #f5d060;
+    --peach: #f0a868;
+    --sage: #8aaa80;
+    --fade: #c8a060;
+  }
+
+  html, body {
+    min-height: 100%;
+    background: #ecddb8;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px 20px 80px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 10%, rgba(240,190,80,0.22) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 85%, rgba(220,160,40,0.16) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 40%, rgba(255,240,180,0.14) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Confetti-like floating stars/sparkles */
+  .spark {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    animation: spark-float linear infinite;
+  }
+  @keyframes spark-float {
+    0%   { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+    6%   { opacity: 0.6; }
+    92%  { opacity: 0.4; }
+    100% { transform: translateY(-8vh) rotate(480deg) scale(1.1); opacity: 0; }
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  /* Header ornament */
+  .header-ornament {
+    text-align: center;
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.2s forwards;
+  }
+  .healing-emblem {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+  }
+  .healing-emblem svg { width: 240px; opacity: 0.5; }
+  .emblem-tagline {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.68rem;
+    font-style: italic;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  /* The letter */
+  .letter {
+    background: var(--paper);
+    border-radius: 2px;
+    padding: 64px 72px 72px;
+    box-shadow:
+      0 2px 4px rgba(100,60,0,0.08),
+      0 8px 32px rgba(100,60,0,0.15),
+      0 24px 80px rgba(100,60,0,0.10),
+      inset 0 0 0 1px rgba(200,150,30,0.16);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .letter::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(160,100,10,0.04) 27px,
+        rgba(160,100,10,0.04) 28px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .letter::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 96px;
+    width: 1px;
+    background: rgba(210,160,30,0.2);
+    pointer-events: none;
+  }
+
+  .letter > * { position: relative; z-index: 1; }
+
+  /* Top ribbon */
+  .wish-banner {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, var(--sun), var(--amber), var(--gold), var(--peach), var(--amber), var(--sun), transparent);
+    opacity: 0.6;
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* Sunburst watermark behind text */
+  .sunburst {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 320px;
+    height: 320px;
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .date {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--fade);
+    letter-spacing: 0.04em;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  .salutation {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 2.8rem;
+    color: var(--accent);
+    line-height: 1.1;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .body-text p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.175rem;
+    font-weight: 400;
+    line-height: 1.95;
+    color: var(--ink);
+    margin-bottom: 24px;
+    text-align: justify;
+    hyphens: auto;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+  }
+
+  .body-text p:first-child { text-indent: 2.2em; }
+  .body-text p em { font-style: italic; color: var(--ink-light); }
+  .body-text p strong { font-weight: 500; color: var(--accent); }
+
+  .body-text p:nth-child(1) { animation-delay: 0.9s; }
+  .body-text p:nth-child(2) { animation-delay: 1.1s; }
+  .body-text p:nth-child(3) { animation-delay: 1.3s; }
+  .body-text p:nth-child(4) { animation-delay: 1.5s; }
+  .body-text p:nth-child(5) { animation-delay: 1.7s; }
+  .body-text p:nth-child(6) { animation-delay: 1.9s; }
+  .body-text p:nth-child(7) { animation-delay: 2.1s; }
+  .body-text p:nth-child(8) { animation-delay: 2.3s; }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 36px 0 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease 2.4s forwards;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(184,116,10,0.32), transparent); }
+  .divider-icon { font-size: 0.95rem; opacity: 0.5; color: var(--gold); }
+
+  .closing {
+    opacity: 0;
+    animation: fadeUp 1s ease 2.6s forwards;
+  }
+  .closing-line {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--ink-light);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+  .signature {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 2.4rem;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+  .signature-sub {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--fade);
+    margin-top: 6px;
+    letter-spacing: 0.06em;
+  }
+
+  /* Corner flourishes */
+  .corner {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    opacity: 0.22;
+  }
+  .corner-tl { top: 18px; left: 18px; }
+  .corner-tr { top: 18px; right: 18px; transform: scaleX(-1); }
+  .corner-bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
+  .corner-br { bottom: 18px; right: 18px; transform: scale(-1); }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 28px;
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.72rem;
+    font-style: italic;
+    color: #a07830;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    animation: fadeUp 1s ease 3s forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .letter { padding: 44px 28px 52px; }
+    .letter::after { display: none; }
+    .body-text p { font-size: 1.08rem; }
+    .salutation { font-size: 2.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<script>
+  // Floating golden sparkles
+  const sparkColors = ['#f5d060','#d4a017','#e8b840','#f0a868','#fce080'];
+  const sparkShapes = ['★', '✦', '·', '◆', '✶'];
+  for (let i = 0; i < 20; i++) {
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.textContent = sparkShapes[Math.floor(Math.random() * sparkShapes.length)];
+    s.style.cssText = `
+      left:${Math.random()*100}vw;
+      font-size:${Math.random()*10+6}px;
+      color:${sparkColors[Math.floor(Math.random()*sparkColors.length)]};
+      animation-duration:${Math.random()*22+12}s;
+      animation-delay:${Math.random()*14}s;
+      opacity:0;
+    `;
+    document.body.appendChild(s);
+  }
+</script>
+
+<div class="page-wrap">
+
+  <!-- Header ornament -->
+  <div class="header-ornament">
+    <div class="healing-emblem">
+      <svg viewBox="0 0 240 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Elegant arching lines -->
+        <path d="M8 19 Q60 4 120 19 Q180 34 232 19" stroke="#b8740a" stroke-width="1" fill="none"/>
+        <path d="M20 19 Q70 8 120 19 Q170 30 220 19" stroke="#d4a017" stroke-width="0.5" fill="none" opacity="0.6"/>
+        <!-- Sun at center -->
+        <circle cx="120" cy="19" r="5" fill="#d4a017" opacity="0.3"/>
+        <circle cx="120" cy="19" r="2.5" fill="#b8740a" opacity="0.7"/>
+        <!-- Sun rays -->
+        <line x1="120" y1="11" x2="120" y2="9"  stroke="#d4a017" stroke-width="1" opacity="0.5"/>
+        <line x1="120" y1="27" x2="120" y2="29"  stroke="#d4a017" stroke-width="1" opacity="0.5"/>
+        <line x1="112" y1="13" x2="110.5" y2="11.5" stroke="#d4a017" stroke-width="1" opacity="0.5"/>
+        <line x1="128" y1="13" x2="129.5" y2="11.5" stroke="#d4a017" stroke-width="1" opacity="0.5"/>
+        <line x1="112" y1="25" x2="110.5" y2="26.5" stroke="#d4a017" stroke-width="1" opacity="0.5"/>
+        <line x1="128" y1="25" x2="129.5" y2="26.5" stroke="#d4a017" stroke-width="1" opacity="0.5"/>
+        <!-- End dots -->
+        <circle cx="8"   cy="19" r="2" fill="#b8740a" opacity="0.4"/>
+        <circle cx="232" cy="19" r="2" fill="#b8740a" opacity="0.4"/>
+        <circle cx="60"  cy="11" r="1.5" fill="#d4a017" opacity="0.4"/>
+        <circle cx="180" cy="11" r="1.5" fill="#d4a017" opacity="0.4"/>
+      </svg>
+      <span class="emblem-tagline">so glad you are here — welcome, friend</span>
+    </div>
+  </div>
+
+  <!-- The Letter -->
+  <div class="letter">
+    <div class="wish-banner"></div>
+
+    <!-- Sunburst watermark -->
+    <svg class="sunburst" viewBox="0 0 200 200" fill="none">
+      <circle cx="100" cy="100" r="40" fill="#d4a017"/>
+      <circle cx="100" cy="100" r="60" fill="none" stroke="#d4a017" stroke-width="1"/>
+      <circle cx="100" cy="100" r="80" fill="none" stroke="#d4a017" stroke-width="0.5"/>
+      <circle cx="100" cy="100" r="95" fill="none" stroke="#d4a017" stroke-width="0.3"/>
+      <line x1="100" y1="0"   x2="100" y2="200" stroke="#d4a017" stroke-width="0.5"/>
+      <line x1="0"   y1="100" x2="200" y2="100" stroke="#d4a017" stroke-width="0.5"/>
+      <line x1="29"  y1="29"  x2="171" y2="171" stroke="#d4a017" stroke-width="0.5"/>
+      <line x1="171" y1="29"  x2="29"  y2="171" stroke="#d4a017" stroke-width="0.5"/>
+      <line x1="14"  y1="62"  x2="186" y2="138" stroke="#d4a017" stroke-width="0.3"/>
+      <line x1="62"  y1="14"  x2="138" y2="186" stroke="#d4a017" stroke-width="0.3"/>
+      <line x1="186" y1="62"  x2="14"  y2="138" stroke="#d4a017" stroke-width="0.3"/>
+      <line x1="138" y1="14"  x2="62"  y2="186" stroke="#d4a017" stroke-width="0.3"/>
+    </svg>
+
+    <!-- Corners -->
+    <svg class="corner corner-tl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 52 Q4 4 52 4" stroke="#b8740a" stroke-width="1.2" fill="none"/>
+      <path d="M4 38 Q18 4 38 4" stroke="#d4a017" stroke-width="0.6" fill="none"/>
+      <circle cx="4" cy="52" r="2.5" fill="#b8740a"/>
+      <circle cx="52" cy="4" r="2.5" fill="#b8740a"/>
+    </svg>
+    <svg class="corner corner-tr" viewBox="0 0 56 56" fill="none">
+      <path d="M4 52 Q4 4 52 4" stroke="#b8740a" stroke-width="1.2" fill="none"/>
+      <path d="M4 38 Q18 4 38 4" stroke="#d4a017" stroke-width="0.6" fill="none"/>
+      <circle cx="4" cy="52" r="2.5" fill="#b8740a"/>
+      <circle cx="52" cy="4" r="2.5" fill="#b8740a"/>
+    </svg>
+    <svg class="corner corner-bl" viewBox="0 0 56 56" fill="none">
+      <path d="M4 52 Q4 4 52 4" stroke="#b8740a" stroke-width="1.2" fill="none"/>
+      <path d="M4 38 Q18 4 38 4" stroke="#d4a017" stroke-width="0.6" fill="none"/>
+      <circle cx="4" cy="52" r="2.5" fill="#b8740a"/>
+      <circle cx="52" cy="4" r="2.5" fill="#b8740a"/>
+    </svg>
+    <svg class="corner corner-br" viewBox="0 0 56 56" fill="none">
+      <path d="M4 52 Q4 4 52 4" stroke="#b8740a" stroke-width="1.2" fill="none"/>
+      <path d="M4 38 Q18 4 38 4" stroke="#d4a017" stroke-width="0.6" fill="none"/>
+      <circle cx="4" cy="52" r="2.5" fill="#b8740a"/>
+      <circle cx="52" cy="4" r="2.5" fill="#b8740a"/>
+    </svg>
+
+    <div class="date">June 2026</div>
+
+    <div class="salutation">Dear Khushi,</div>
+
+    <div class="body-text">
+
+      <p>
+        There are some people who enter your life and the very first thing you notice is that something feels different — lighter, warmer, easier. The air shifts a little. You are not entirely sure how to explain it, but you know it almost immediately. That is how I felt when you came into my life. And today, I just want to say — out loud, in words, on paper — how genuinely glad I am that you are here.
+      </p>
+
+      <p>
+        Welcome, Khushi. Not just into a friendship, but into something that I already know is going to matter. <em>Because people like you — the kind who carry warmth in the way they speak, who make others feel seen without even trying — do not come around very often.</em> And when they do, you hold on. You pay attention. You make sure they know they are valued.
+      </p>
+
+      <p>
+        I want you to know that this place — this friendship, this space between us — is yours entirely. There is no performance required here, no version of yourself you need to carefully present. <strong>You can be honest, you can be messy, you can be uncertain, and you will still be more than welcome.</strong> That is not something I say lightly. It is something I mean in every sense of the word.
+      </p>
+
+      <p>
+        New friendships have a particular kind of magic to them — the excitement of discovering someone, the quiet thrill of realising you understand each other in ways you did not expect, the strange comfort of someone who is new but somehow already feels familiar. <em>That is what I feel with you, Khushi. Already familiar. Already easy. Already something I am grateful for.</em>
+      </p>
+
+      <p>
+        I hope you know that you bring something to every room you enter — a kind of brightness that is yours alone. The way you engage with the world, the curiosity you carry, the genuine warmth you offer to people — <strong>these are not small things. They are rare things. And I see them.</strong> I see them clearly, and I want you to know that they are appreciated more than you might realise.
+      </p>
+
+      <p>
+        I am looking forward to all of it — the long conversations that stretch past midnight, the comfortable silences that do not need to be filled, the shared laughter over things that probably would not make sense to anyone else. I am looking forward to the moments we have not had yet, and the memories we have not made yet. <em>All of it. Every small, ordinary, extraordinary bit of it.</em>
+      </p>
+
+      <p>
+        So here is my welcome to you — not with ceremony or formality, but with complete and utter sincerity. This friendship is a good thing. You are a good thing in my life. And I do not take that lightly, not even for a single moment. <strong>You belong here, Khushi. Fully, genuinely, without any condition or reservation — you belong here.</strong>
+      </p>
+
+      <p>
+        Here is to the beginning of something really, truly beautiful. I could not be more glad that it is with you.
+      </p>
+
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-icon">✦</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="closing">
+      <div class="closing-line">
+        With the warmest of welcomes,<br>
+        and a friendship already cherished —
+      </div>
+      <div class="signature">Your friend</div>
+      <div class="signature-sub">so glad you are here, Khushi &nbsp;☀️</div>
+    </div>
+
+  </div>
+
+  <div class="footer-note">
+    written with joy &nbsp;·&nbsp; for Khushi &nbsp;·&nbsp; welcome to something beautiful
+  </div>
+
+</div>
+</body>
+</html>
